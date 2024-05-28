@@ -1,5 +1,6 @@
 package com.example.solicitacoes.controller;
 
+import com.example.solicitacoes.model.Solicitacao;
 import com.example.solicitacoes.model.User;
 import com.example.solicitacoes.repository.UserRepository;
 import com.example.solicitacoes.service.AuthService;
@@ -38,7 +39,11 @@ public class SolicitacaoControllerIntegrationTest {
     @BeforeEach
     public void setup() {
         userRepository.deleteAll();
+        userRepository.save(new User("admin", "password"));
     }
+
+
+
 
     @Test
     public void testRegisterUser() throws Exception {
@@ -74,5 +79,18 @@ public class SolicitacaoControllerIntegrationTest {
                         .header("Authorization", token))
                 .andExpect(status().isOk())
                 .andExpect(content().string("This is a protected resource"));
+    }
+
+    @Test
+    public void testCriarSolicitacao() throws Exception {
+        Solicitacao solicitacao = new Solicitacao("Cartões", "Problema com o cartão");
+        String solicitacaoJson = objectMapper.writeValueAsString(solicitacao);
+        String token = "Bearer " + authService.authenticate("admin", "password");
+
+        mockMvc.perform(post("/solicitacoes/solicitacao")
+                        .header("Authorization", token)
+                        .contentType("application/json")
+                        .content(solicitacaoJson))
+                .andExpect(status().isOk());
     }
 }

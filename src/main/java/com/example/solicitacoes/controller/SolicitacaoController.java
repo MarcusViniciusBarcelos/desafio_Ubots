@@ -1,6 +1,7 @@
 package com.example.solicitacoes.controller;
 
 import com.example.solicitacoes.model.Atendente;
+import com.example.solicitacoes.model.Atribuicao;
 import com.example.solicitacoes.model.Solicitacao;
 import com.example.solicitacoes.model.User;
 import com.example.solicitacoes.service.AuthService;
@@ -43,10 +44,11 @@ public class SolicitacaoController {
         return "This is a protected resource";
     }
 
-    @PostMapping
-    public void adicionarSolicitacao(@RequestHeader("Authorization") String token, @RequestBody Solicitacao solicitacao) {
+    @PostMapping("/solicitacao")
+    public String criarSolicitacao(@RequestHeader("Authorization") String token, @RequestBody Solicitacao solicitacao) {
         if (authService.authenticateToken(token.substring(7))) { // Remove "Bearer " prefix
             distribuidorDeSolicitacoes.adicionarSolicitacao(solicitacao);
+            return "Solicitação criada com status: " + solicitacao.getStatus();
         } else {
             throw new RuntimeException("Unauthorized");
         }
@@ -61,10 +63,15 @@ public class SolicitacaoController {
         }
     }
 
-    @PostMapping("/liberar/{nomeTime}")
-    public void liberarAtendimento(@RequestHeader("Authorization") String token, @PathVariable String nomeTime, @RequestBody Atendente atendente) {
+    @PostMapping("/atendente/liberar")
+    public String liberarAtendimento(@RequestHeader("Authorization") String token, @PathVariable String tipoAtendimento, @RequestBody Atendente atendente) {
         if (authService.authenticateToken(token.substring(7))) { // Remove "Bearer " prefix
-            distribuidorDeSolicitacoes.liberarAtendimento(nomeTime, atendente);
+            if(atendente != null ) {
+                distribuidorDeSolicitacoes.liberarAtendente(atendente);
+                return "Atendente liberado e solicitação atribuída da fila, se disponível.";
+            } else {
+                return "Atendente não encontrado.";
+            }
         } else {
             throw new RuntimeException("Unauthorized");
         }
@@ -83,6 +90,15 @@ public class SolicitacaoController {
     public List<Solicitacao> listarSolicitacoes(@RequestHeader("Authorization") String token, @PathVariable String nomeTime) {
         if (authService.authenticateToken(token.substring(7))) { // Remove "Bearer " prefix
             return distribuidorDeSolicitacoes.listarSolicitacoes(nomeTime);
+        } else {
+            throw new RuntimeException("Unauthorized");
+        }
+    }
+
+    @GetMapping("/historico")
+    public List<Atribuicao> getHistoricoAtribuicoes(@RequestHeader("Authorization") String token) {
+        if (authService.authenticateToken(token.substring(7))) { // Remove "Bearer " prefix
+            return distribuidorDeSolicitacoes.getHistoricoAtribuicoes();
         } else {
             throw new RuntimeException("Unauthorized");
         }
