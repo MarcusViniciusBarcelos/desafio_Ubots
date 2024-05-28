@@ -1,9 +1,11 @@
 package com.example.solicitacoes.controller;
 
+import com.example.solicitacoes.model.Atendente;
 import com.example.solicitacoes.model.Solicitacao;
 import com.example.solicitacoes.model.User;
 import com.example.solicitacoes.repository.UserRepository;
 import com.example.solicitacoes.service.AuthService;
+import com.example.solicitacoes.service.DistribuidorDeSolicitacoes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,10 +38,17 @@ public class SolicitacaoControllerIntegrationTest {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private DistribuidorDeSolicitacoes distribuidorDeSolicitacoes;
+
     @BeforeEach
     public void setup() {
         userRepository.deleteAll();
+        // Adiciona o usuário admin ao repositório para garantir que ele exista antes de autenticar
         userRepository.save(new User("admin", "password"));
+
+        // Adiciona atendentes para o teste
+        distribuidorDeSolicitacoes.adicionarAtendente("Cartões", new Atendente("Atendente 1"));
     }
 
 
@@ -92,5 +101,85 @@ public class SolicitacaoControllerIntegrationTest {
                         .contentType("application/json")
                         .content(solicitacaoJson))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testListarAtendentes() throws Exception {
+        String token = "Bearer " + authService.authenticate("admin", "password");
+
+        mockMvc.perform(get("/solicitacoes/atendentes/Cartões")
+                        .header("Authorization", token))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]")); // Espera-se que inicialmente não haja atendentes
+    }
+
+    @Test
+    public void testListarSolicitacoes() throws Exception {
+        String token = "Bearer " + authService.authenticate("admin", "password");
+
+        mockMvc.perform(get("/solicitacoes/solicitacoes/Cartões")
+                        .header("Authorization", token))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]")); // Espera-se que inicialmente não haja solicitações na fila
+    }
+
+    @Test
+    public void testLiberarAtendente() throws Exception {
+        Atendente atendente = new Atendente("Atendente 1");
+        String atendenteJson = objectMapper.writeValueAsString(atendente);
+        String token = "Bearer " + authService.authenticate("admin", "password");
+
+        mockMvc.perform(post("/solicitacoes/atendente/liberar/Cartões")
+                        .header("Authorization", token)
+                        .contentType("application/json")
+                        .content(atendenteJson))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Atendente liberado e solicitação atribuída da fila, se disponível."));
+    }
+
+    @Test
+    public void testHistoricoAtribuicoes() throws Exception {
+        String token = "Bearer " + authService.authenticate("admin", "password");
+
+        mockMvc.perform(get("/solicitacoes/historico")
+                        .header("Authorization", token))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]")); // Espera-se que inicialmente não haja histórico de atribuições
+    }
+
+    // Teste para verificar a fila de espera
+    @Test
+    public void testFilaDeEspera() throws Exception {
+        String token = "Bearer " + authService.authenticate("admin", "password");
+
+        // Criar 3 solicitações para serem atendidas imediatamente
+        for (int i = 1; i <= 3; i++) {
+            Solicitacao solicitacao = new Solicitacao("Cartões", "Problema com o cartão " + i);
+            String solicitacaoJson = objectMapper.writeValueAsString(solicitacao);
+
+            mockMvc.perform(post("/solicitacoes/solicitacao")
+                            .header("Authorization", token)
+                            .contentType("application/json")
+                            .content(solicitacaoJson))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string("Solicitação criada com status: em atendimento"));
+        }
+
+        // Criar a quarta solicitação que deve ir para a fila
+        Solicitacao solicitacao4 = new Solicitacao("Cartões", "Problema com o cartão 4");
+        String solicitacaoJson4 = objectMapper.writeValueAsString(solicitacao4);
+
+        mockMvc.perform(post("/solicitacoes/solicitacao")
+                        .header("Authorization", token)
+                        .contentType("application/json")
+                        .content(solicitacaoJson4))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Solicitação criada com status: na fila"));
+
+        // Verificar que a quarta solicitação foi para a fila
+        mockMvc.perform(get("/solicitacoes/solicitacoes/Cartões")
+                        .header("Authorization", token))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"tipo\":\"Cartões\",\"descricao\":\"Problema com o cartão 4\",\"status\":\"na fila\"}]"));
     }
 }

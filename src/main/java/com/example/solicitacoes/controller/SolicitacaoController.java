@@ -63,10 +63,10 @@ public class SolicitacaoController {
         }
     }
 
-    @PostMapping("/atendente/liberar")
+    @PostMapping("/atendente/liberar/{tipoAtendimento}")
     public String liberarAtendimento(@RequestHeader("Authorization") String token, @PathVariable String tipoAtendimento, @RequestBody Atendente atendente) {
         if (authService.authenticateToken(token.substring(7))) { // Remove "Bearer " prefix
-            if(atendente != null ) {
+            if (atendente != null) {
                 distribuidorDeSolicitacoes.liberarAtendente(atendente);
                 return "Atendente liberado e solicitação atribuída da fila, se disponível.";
             } else {

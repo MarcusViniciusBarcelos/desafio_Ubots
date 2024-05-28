@@ -19,9 +19,9 @@ public class DistribuidorDeSolicitacoes {
         historicoAtribuicoes = new ArrayList<>();
 
         // Inicializa os times de atendimento e as filas de espera
-        timesDeAtendimento.put("Cartões", new LinkedList<>());
-        timesDeAtendimento.put("Empréstimos", new LinkedList<>());
-        timesDeAtendimento.put("Outros Assuntos", new LinkedList<>());
+        timesDeAtendimento.put("Cartões", new ArrayList<>());
+        timesDeAtendimento.put("Empréstimos", new ArrayList<>());
+        timesDeAtendimento.put("Outros Assuntos", new ArrayList<>());
 
         filasDeEspera.put("Cartões", new LinkedList<>());
         filasDeEspera.put("Empréstimos", new LinkedList<>());
@@ -53,18 +53,10 @@ public class DistribuidorDeSolicitacoes {
 
     public void liberarAtendente(Atendente atendente) {
         atendente.removerSolicitacao();
-        String tipo = "";
-
-        // Encontra o tipo do time do atendente
-        for (Map.Entry<String, List<Atendente>> entry : timesDeAtendimento.entrySet()) {
-            if (entry.getValue().contains(atendente)) {
-                tipo = entry.getKey();
-                break;
-            }
-        }
+        String tipo = encontrarTipoAtendimento(atendente);
 
         Queue<Solicitacao> fila = filasDeEspera.get(tipo);
-        if (!fila.isEmpty()) {
+        if (fila != null && !fila.isEmpty()) {
             Solicitacao solicitacao = fila.poll();
             solicitacao.setStatus("em atendimento");
             atendente.adicionarSolicitacao();
@@ -72,12 +64,21 @@ public class DistribuidorDeSolicitacoes {
         }
     }
 
+    private String encontrarTipoAtendimento(Atendente atendente) {
+        for (Map.Entry<String, List<Atendente>> entry : timesDeAtendimento.entrySet()) {
+            if (entry.getValue().contains(atendente)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     public List<Atendente> listarAtendentes(String nomeTime) {
         return timesDeAtendimento.getOrDefault(nomeTime, new LinkedList<>());
     }
 
     public List<Solicitacao> listarSolicitacoes(String nomeTime) {
-        return new LinkedList<>(filasDeEspera.getOrDefault(nomeTime, new LinkedList<>()));
+        return new ArrayList<>(filasDeEspera.getOrDefault(nomeTime, new LinkedList<>()));
     }
 
     public Atendente getAtendente(String nome, String tipoAtendimento) {
