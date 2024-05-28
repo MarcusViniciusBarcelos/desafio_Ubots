@@ -1,11 +1,14 @@
-package com.example.solicitacoes;
+package com.example.solicitacoes.service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
+
+import com.example.solicitacoes.model.Atendente;
+import com.example.solicitacoes.model.Solicitacao;
+import com.example.solicitacoes.model.TimeDeAtendimento;
 
 @Component
 public class DistribuidorDeSolicitacoes {

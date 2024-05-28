@@ -1,4 +1,4 @@
-package com.example.solicitacoes;
+package com.example.solicitacoes.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
