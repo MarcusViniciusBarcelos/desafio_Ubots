@@ -10,6 +10,14 @@ Projeto de software para desafio técnico Ubots, que distribui solicitações de
 - Autenticação JWT para segurança.
 - Documentação da API com Swagger.
 
+## Observações
+
+- Criptografia de Senha: Por se tratar de um projeto de teste técnico com prazo curto, a criptografia de senha não foi implementada. Em um ambiente de produção, as senhas seriam criptografadas usando técnicas apropriadas como bcrypt.
+
+- Endpoints em Português: Os endpoints foram definidos em português para melhor legibilidade e entendimento, mas sabemos que em um ambiente técnico eles normalmente seriam em inglês.
+
+- Tipos e Status: Os parâmetros de “tipo” e “status” foram colocados em português para clareza, mas em uma aplicação real, identificadores mais técnicos seriam usados. Por exemplo, tipo: "Cartões" seria type: "cards", status: "queued" em vez de status: "na fila".
+
 ## Tecnologias Utilizadas
 
 - Java 17
@@ -30,7 +38,7 @@ Projeto de software para desafio técnico Ubots, que distribui solicitações de
 
     ```sh
     git clone https://github.com/MarcusViniciusBarcelos/desafio_Ubots.git
-    cd seu-repositorio
+    cd solicitacoes
     ```
 
 2. Compile e execute o projeto:
@@ -49,6 +57,22 @@ Projeto de software para desafio técnico Ubots, que distribui solicitações de
 3. Acesse a aplicação:
     - A aplicação estará disponível em `http://localhost:8081`.
     - A documentação da API com Swagger estará disponível em `http://localhost:8081/swagger-ui.html`.
+
+## Testes
+
+Os testes de integração estão incluídos para verificar o funcionamento correto dos principais fluxos da aplicação. Para executar os testes, use:
+
+No Linux ou macOS:
+
+    ```sh
+    ./mvnw test
+    ```
+
+    No Windows:
+
+    ```sh
+    .\\mvnw.cmd test
+    ```
 
 ## Endpoints da API
 
