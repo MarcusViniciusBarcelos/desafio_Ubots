@@ -1,0 +1,44 @@
+{
+  "atendentes": [
+    {"nome": "Atendente Cartões 1", "tipo": "Cartões", "solicitacoesAtendidas": 0},
+    {"nome": "Atendente Cartões 2", "tipo": "Cartões", "solicitacoesAtendidas": 0},
+    {"nome": "Atendente Empréstimos 1", "tipo": "Empréstimos", "solicitacoesAtendidas": 0},
+    {"nome": "Atendente Empréstimos 2", "tipo": "Empréstimos", "solicitacoesAtendidas": 0},
+    {"nome": "Atendente Outros 1", "tipo": "Outros Assuntos", "solicitacoesAtendidas": 0},
+    {"nome": "Atendente Outros 2", "tipo": "Outros Assuntos", "solicitacoesAtendidas": 0}
+  ],
+  "solicitacoes": [
+    {"tipo": "Cartões", "descricao": "Problema com cartão 1", "status": "na fila"},
+    {"tipo": "Cartões", "descricao": "Problema com cartão 2", "status": "na fila"},
+    {"tipo": "Cartões", "descricao": "Problema com cartão 3", "status": "na fila"},
+    {"tipo": "Cartões", "descricao": "Problema com cartão 4", "status": "na fila"},
+    {"tipo": "Cartões", "descricao": "Problema com cartão 5", "status": "na fila"},
+    {"tipo": "Empréstimos", "descricao": "Problema com empréstimo 1", "status": "na fila"},
+    {"tipo": "Empréstimos", "descricao": "Problema com empréstimo 2", "status": "na fila"},
+    {"tipo": "Empréstimos", "descricao": "Problema com empréstimo 3", "status": "na fila"},
+    {"tipo": "Empréstimos", "descricao": "Problema com empréstimo 4", "status": "na fila"},
+    {"tipo": "Empréstimos", "descricao": "Problema com empréstimo 5", "status": "na fila"},
+    {"tipo": "Outros Assuntos", "descricao": "Problema com outro assunto 1", "status": "na fila"},
+    {"tipo": "Outros Assuntos", "descricao": "Problema com outro assunto 2", "status": "na fila"},
+    {"tipo": "Outros Assuntos", "descricao": "Problema com outro assunto 3", "status": "na fila"},
+    {"tipo": "Outros Assuntos", "descricao": "Problema com outro assunto 4", "status": "na fila"},
+    {"tipo": "Outros Assuntos", "descricao": "Problema com outro assunto 5", "status": "na fila"}
+  ],
+  "historicoAtribuicoes": [
+    {"atendente": "Atendente Cartões 1", "descricaoSolicitacao": "Problema com cartão 1"},
+    {"atendente": "Atendente Cartões 2", "descricaoSolicitacao": "Problema com cartão 2"},
+    {"atendente": "Atendente Empréstimos 1", "descricaoSolicitacao": "Problema com empréstimo 1"},
+    {"atendente": "Atendente Empréstimos 2", "descricaoSolicitacao": "Problema com empréstimo 2"},
+    {"atendente": "Atendente Outros 1", "descricaoSolicitacao": "Problema com outro assunto 1"},
+    {"atendente": "Atendente Outros 2", "descricaoSolicitacao": "Problema com outro assunto 2"},
+    {"atendente": "Atendente Cartões 1", "descricaoSolicitacao": "Problema com cartão 3"},
+    {"atendente": "Atendente Cartões 2", "descricaoSolicitacao": "Problema com cartão 4"},
+    {"atendente": "Atendente Empréstimos 1", "descricaoSolicitacao": "Problema com empréstimo 3"},
+    {"atendente": "Atendente Empréstimos 2", "descricaoSolicitacao": "Problema com empréstimo 4"},
+    {"atendente": "Atendente Outros 1", "descricaoSolicitacao": "Problema com outro assunto 3"},
+    {"atendente": "Atendente Outros 2", "descricaoSolicitacao": "Problema com outro assunto 4"},
+    {"atendente": "Atendente Cartões 1", "descricaoSolicitacao": "Problema com cartão 5"},
+    {"atendente": "Atendente Empréstimos 1", "descricaoSolicitacao": "Problema com empréstimo 5"},
+    {"atendente": "Atendente Outros 1", "descricaoSolicitacao": "Problema com outro assunto 5"}
+  ]
+}
