@@ -1,20 +1,22 @@
 package com.example.solicitacoes.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Atendente {
     private String nome;
     private int solicitacoesAtendidas;
+    private String tipo;
 
     public Atendente() {
 
     }
 
     @JsonCreator
-    public Atendente(String nome) {
+    public Atendente(@JsonProperty("nome") String nome, @JsonProperty("tipo") String tipo) {
         this.nome = nome;
+        this.tipo = tipo;
         this.solicitacoesAtendidas = 0;
-
     }
 
     public String getNome() {
@@ -23,6 +25,10 @@ public class Atendente {
 
     public int getSolicitacoesAtendidas() {
         return solicitacoesAtendidas;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 
     public boolean podeAtender() {

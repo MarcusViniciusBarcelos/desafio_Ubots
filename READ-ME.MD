@@ -1,6 +1,6 @@
 # Projeto de Distribuição de Solicitações da Invext
 
-Projeto de software para desafio técnico Ubots, que distribui solicitações de clientes para os times apropriados (Cartões, Empréstimos e Outros Assuntos) com base no tipo de solicitação. O software garante que cada atendente atenda no máximo 3 solicitações simultâneas e gerencia uma fila de espera quando necessário.
+Projeto de software para desafio técnico Ubots, que distribui solicitações de clientes para os times apropriados (cartoes, emprestimos e outros_assuntos) com base no tipo de solicitação. O software garante que cada atendente atenda no máximo 3 solicitações simultâneas e gerencia uma fila de espera quando necessário.
 
 ## Funcionalidades
 
@@ -16,7 +16,7 @@ Projeto de software para desafio técnico Ubots, que distribui solicitações de
 
 - Endpoints em Português: Os endpoints foram definidos em português para melhor legibilidade e entendimento, mas sabemos que em um ambiente técnico eles normalmente seriam em inglês.
 
-- Tipos e Status: Os parâmetros de “tipo” e “status” foram colocados em português para clareza, mas em uma aplicação real, identificadores mais técnicos seriam usados. Por exemplo, tipo: "Cartões" seria type: "cards", status: "queued" em vez de status: "na fila".
+- Tipos e Status: Os parâmetros de “tipo” e “status” foram colocados em português para clareza, mas em uma aplicação real, identificadores mais técnicos seriam usados. Por exemplo, tipo: "cartoes" seria type: "cards", status: "queued" em vez de status: "na fila".
 
 ## Tecnologias Utilizadas
 
@@ -73,6 +73,8 @@ No Linux ou macOS:
     ```sh
     .\\mvnw.cmd test
     ```
+
+##
 
 ## Endpoints da API
 
@@ -140,7 +142,7 @@ No Linux ou macOS:
 
     ```json
     {
-        "tipo": "Cartões",
+        "tipo": "cartoes",
         "descricao": "Problema com o cartão"
     }
     ```
@@ -182,7 +184,7 @@ No Linux ou macOS:
 
     Parâmetros de Caminho:
 
-  - `nomeTime`: Nome do time de atendimento (e.g., "Cartões", "Empréstimos", "Outros Assuntos").
+  - `nomeTime`: Nome do time de atendimento (e.g., "cartoes", "emprestimos", "outros_assuntos").
 
     Header:
 
@@ -213,7 +215,7 @@ No Linux ou macOS:
 
     Parâmetros de Caminho:
 
-  - `nomeTime`: Nome do time de atendimento (e.g., "Cartões", "Empréstimos", "Outros Assuntos").
+  - `nomeTime`: Nome do time de atendimento (e.g., "cartoes", "emprestimos", "outros_assuntos").
 
     Header:
 
@@ -226,12 +228,12 @@ No Linux ou macOS:
     ```json
     [
         {
-            "tipo": "Cartões",
+            "tipo": "cartoes",
             "descricao": "Problema com o cartão",
             "status": "na fila"
         },
         {
-            "tipo": "Cartões",
+            "tipo": "cartoes",
             "descricao": "Outro problema com o cartão",
             "status": "na fila"
         }

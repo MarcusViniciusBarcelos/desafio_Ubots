@@ -1,11 +1,19 @@
 package com.example.solicitacoes.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Solicitacao {
     private String tipo;
     private String descricao;
     private String status;
 
-    public Solicitacao(String tipo, String descricao) {
+    public Solicitacao() {
+        // Construtor padrão para a desserialização
+    }
+
+    @JsonCreator
+    public Solicitacao(@JsonProperty("tipo") String tipo, @JsonProperty("descricao") String descricao) {
         this.tipo = tipo;
         this.descricao = descricao;
         this.status = "na fila"; // status inicial

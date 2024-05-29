@@ -19,17 +19,17 @@ public class DistribuidorDeSolicitacoes {
         historicoAtribuicoes = new ArrayList<>();
 
         // Inicializa os times de atendimento e as filas de espera
-        timesDeAtendimento.put("Cartões", new ArrayList<>());
-        timesDeAtendimento.put("Empréstimos", new ArrayList<>());
-        timesDeAtendimento.put("Outros Assuntos", new ArrayList<>());
+        timesDeAtendimento.put("cartoes", new ArrayList<>());
+        timesDeAtendimento.put("emprestimos", new ArrayList<>());
+        timesDeAtendimento.put("outros_assuntos", new ArrayList<>());
 
-        filasDeEspera.put("Cartões", new LinkedList<>());
-        filasDeEspera.put("Empréstimos", new LinkedList<>());
-        filasDeEspera.put("Outros Assuntos", new LinkedList<>());
+        filasDeEspera.put("cartoes", new LinkedList<>());
+        filasDeEspera.put("emprestimos", new LinkedList<>());
+        filasDeEspera.put("outros_assuntos", new LinkedList<>());
     }
 
     public void adicionarAtendente(String tipo, Atendente atendente) {
-        timesDeAtendimento.get(tipo).add(atendente);
+        timesDeAtendimento.computeIfAbsent(tipo, k -> new ArrayList<>()).add(atendente);
     }
 
     public void adicionarSolicitacao(Solicitacao solicitacao) {
@@ -47,7 +47,7 @@ public class DistribuidorDeSolicitacoes {
             historicoAtribuicoes.add(new Atribuicao(atendenteDisponivel.getNome(), solicitacao.getDescricao()));
         } else {
             solicitacao.setStatus("na fila");
-            filasDeEspera.get(tipo).add(solicitacao);
+            filasDeEspera.computeIfAbsent(tipo, k -> new LinkedList<>()).add(solicitacao);
         }
     }
 
@@ -74,7 +74,7 @@ public class DistribuidorDeSolicitacoes {
     }
 
     public List<Atendente> listarAtendentes(String nomeTime) {
-        return timesDeAtendimento.getOrDefault(nomeTime, new LinkedList<>());
+        return timesDeAtendimento.getOrDefault(nomeTime, new ArrayList<>());
     }
 
     public List<Solicitacao> listarSolicitacoes(String nomeTime) {
@@ -82,7 +82,7 @@ public class DistribuidorDeSolicitacoes {
     }
 
     public Atendente getAtendente(String nome, String tipoAtendimento) {
-        return timesDeAtendimento.get(tipoAtendimento).stream()
+        return timesDeAtendimento.getOrDefault(tipoAtendimento, new ArrayList<>()).stream()
                 .filter(atendente -> atendente.getNome().equals(nome))
                 .findFirst()
                 .orElse(null);
